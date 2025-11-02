@@ -44,6 +44,32 @@ public class ColonistAI : MonoBehaviour
         get { return currentHealth; }
     }
 
+    /// <summary>
+    /// 疲労回復速度
+    /// </summary>
+    public float RecoveryRate = 1f;
+
+    /// <summary>
+    /// 疲れやすさ
+    /// </summary>
+    public float FatigueRate = 1f;
+
+    /// <summary>
+    /// コロニストの年齢 
+    /// </summary>
+    public int ColonistAge = 20;
+
+    /// <summary>
+    /// 年齢によって、色を変更する
+    /// </summary>
+    public Material YoungMaterial;
+    public Material NormalMaterial;
+    public Material OldMaterial;
+
+    /// <summary>
+    /// Colonistの3Dモデル表示部分
+    /// </summary>
+    private MeshRenderer[] coloniostMeshRenderers = new MeshRenderer[2];
 
     void Start()
     {
@@ -51,6 +77,46 @@ public class ColonistAI : MonoBehaviour
         State = ColonistState.Idle;
         // 現在の体力をMAXにする
         currentHealth = MaxHealth;
+
+        // 3D表示部分を取得
+        coloniostMeshRenderers = GetComponentsInChildren<MeshRenderer>();
+
+        // コロニストの年齢を決める
+        ColonistAge = Random.Range(18, 70);
+        // コロニストの年齢が20まで
+        if (ColonistAge < 20)
+        {
+            RecoveryRate = 2f;
+            FatigueRate = 0.5f;
+            MoveSpeed = 5f;
+
+            // foreach文は配列に対して、全ての要素に変更を加えたい時に使います
+            foreach (var renderer in coloniostMeshRenderers)
+            {
+                renderer.material = YoungMaterial;
+            }
+        }
+        else if (ColonistAge < 40)// else ifは"そう(if分の条件)じゃなくって"
+        {
+            RecoveryRate = 1f;
+            FatigueRate = 1f;
+            MoveSpeed = 2f;
+            foreach (var renderer in coloniostMeshRenderers)
+            {
+                renderer.material = NormalMaterial;
+            }
+        }
+        else // if文の条件でもなく、else if文の条件でもない場合
+        { // 40より上
+            RecoveryRate = 0.5f;
+            FatigueRate = 2f;
+            MoveSpeed = 1f;
+
+            foreach (var renderer in coloniostMeshRenderers)
+            {
+                renderer.material = OldMaterial;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -65,7 +131,7 @@ public class ColonistAI : MonoBehaviour
             case ColonistState.Idle:
 
                 // 現在の体力をじわじわっと回復させる 
-                currentHealth += 2f * Time.deltaTime;
+                currentHealth += RecoveryRate * 2f * Time.deltaTime;
 
                 // caseとbreakの間に、caseの場合の処理を書く
                 // もしタイマーが0秒を下回ったら
@@ -84,7 +150,7 @@ public class ColonistAI : MonoBehaviour
                     transform.position, targetPosition, MoveSpeed * Time.deltaTime);
 
                 // 現在の体力値から1秒間で5ポイント体力を減らします
-                currentHealth -= 5f * Time.deltaTime;
+                currentHealth -= FatigueRate * 5f * Time.deltaTime;
 
                 // 現在の体力が20ポイントを下回ったら
                 if (currentHealth <= 20f)
@@ -111,7 +177,7 @@ public class ColonistAI : MonoBehaviour
                 transform.Rotate(Vector3.up * 30f * Time.deltaTime);
 
                 // 現在の体力を1秒間に10ポイント減らします
-                currentHealth -= 10f * Time.deltaTime;
+                currentHealth -= FatigueRate * 10f * Time.deltaTime;
 
                 // 現在の体力が20ポイントより少なくなったら
                 if (currentHealth <= 20f)
@@ -133,7 +199,7 @@ public class ColonistAI : MonoBehaviour
             case ColonistState.Sleep:
 
                 // 1秒間に8ポイント回復させる
-                currentHealth += 8f * Time.deltaTime;
+                currentHealth += RecoveryRate * 8f * Time.deltaTime;
 
                 // もし、コロニストの体力が完全に回復したら
                 if (currentHealth >= MaxHealth)
