@@ -25,11 +25,32 @@ public class ColonistAI : MonoBehaviour
     public float MoveSpeed = 2.0f;
     private Vector3 targetPosition = new Vector3(2, 0, 2);
 
+    /// <summary>
+    /// 最大体力値
+    /// </summary>
+    public float MaxHealth = 100f;
+
+    /// <summary>
+    /// 現在の体力値
+    /// </summary>
+    [SerializeField]
+    private float currentHealth;
+
+    /// <summary>
+    ///  外部から現在の体力を取得させるためのプロパティ
+    /// </summary>
+    public float GetCurrentHealth
+    {
+        get { return currentHealth; }
+    }
+
+
     void Start()
     {
         // コロニストの状態をIdle(待機)から始める
         State = ColonistState.Idle;
-        // 例えば待機だった場合、1足して移動にできる
+        // 現在の体力をMAXにする
+        currentHealth = MaxHealth;
     }
 
     // Update is called once per frame
@@ -42,6 +63,10 @@ public class ColonistAI : MonoBehaviour
         switch (State)
         {
             case ColonistState.Idle:
+
+                // 現在の体力をじわじわっと回復させる 
+                currentHealth += 2f * Time.deltaTime;
+
                 // caseとbreakの間に、caseの場合の処理を書く
                 // もしタイマーが0秒を下回ったら
                 if (timer <= 0f)
@@ -50,13 +75,23 @@ public class ColonistAI : MonoBehaviour
                     State = ColonistState.Move;
                     // ターゲットポジションを決めてあげる
                     targetPosition = new Vector3(
-            Random.Range(-5f, 5f), 0, Random.Range(-1f, 1f));
+            Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
                     timer = 2f;
                 }
                 break;
             case ColonistState.Move:
                 transform.position = Vector3.MoveTowards(
                     transform.position, targetPosition, MoveSpeed * Time.deltaTime);
+
+                // 現在の体力値から1秒間で5ポイント体力を減らします
+                currentHealth -= 5f * Time.deltaTime;
+
+                // 現在の体力が20ポイントを下回ったら
+                if (currentHealth <= 20f)
+                {
+                    // 回復するために寝る状態にする
+                    State = ColonistState.Sleep;
+                }
 
                 // if文はもし、小括弧内の条件だったら、中括弧の中の処理を行う
                 // 自分の位置と、ターゲットの位置が10cmより近くなったら
@@ -73,7 +108,17 @@ public class ColonistAI : MonoBehaviour
                 Debug.Log("Colonist is mining!");
 
                 // 毎フレーム回転させ続ける
-                transform.Rotate(Vector3.up*30f*Time.deltaTime);
+                transform.Rotate(Vector3.up * 30f * Time.deltaTime);
+
+                // 現在の体力を1秒間に10ポイント減らします
+                currentHealth -= 10f * Time.deltaTime;
+
+                // 現在の体力が20ポイントより少なくなったら
+                if (currentHealth <= 20f)
+                {
+                    // 体力を回復させるためにSleepにする
+                    State = ColonistState.Sleep;
+                }
 
                 if (timer <= 0f)
                 {
@@ -82,20 +127,16 @@ public class ColonistAI : MonoBehaviour
                     // timerを1秒～15秒で設定します。
                     timer = Random.Range(1f, 15f);
                     // もし小かっこ内の条件だったら
-                    if (timer <= 3f)
-                    {
-                        // StateをColonistState.Sleepに変更してください。
-                        State = ColonistState.Idle;
-                    }
-                    else
-                    {
-                        State = ColonistState.Sleep;
-                    }
+                    State = ColonistState.Idle;
                 }
                 break;
             case ColonistState.Sleep:
-                // もし、timerが0秒を下回ったら、StateをIdleに変更しましょう。
-                if (timer <= 0f)
+
+                // 1秒間に8ポイント回復させる
+                currentHealth += 8f * Time.deltaTime;
+
+                // もし、コロニストの体力が完全に回復したら
+                if (currentHealth >= MaxHealth)
                 {
                     State = ColonistState.Idle;
                     // timerを1秒から5秒で設定してください。
