@@ -297,6 +297,7 @@ MonoBehaviour:
   YoungMaterial: {fileID: 2100000, guid: af9738170dba40f48ac794394d162aba, type: 2}
   NormalMaterial: {fileID: 2100000, guid: 979cf6e3e770a8c4b9bf8db2f38ba44b, type: 2}
   OldMaterial: {fileID: 2100000, guid: a2bea01e0bf7a1e468a2b88c9e721743, type: 2}
+  MiningSkill: 0.58
 --- !u!1001 &1007559550643890016
 PrefabInstance:
   m_ObjectHideFlags: 0
