@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class ColonistUIManager : MonoBehaviour
@@ -5,6 +6,8 @@ public class ColonistUIManager : MonoBehaviour
     private ColonistHealthUI colonistHealthUI;
 
     private ColonistStatusUI colonistStatusUI;
+    
+    public TextMeshProUGUI NameText;
 
     /// <summary>
     /// Awake()はStart()を実行される前に、実行される初期化用のメソッドです
@@ -24,5 +27,8 @@ public class ColonistUIManager : MonoBehaviour
     {
         colonistHealthUI.ColonistAI = colonistAI;
         colonistStatusUI.ColonistAI = colonistAI;
+        
+        // 名前の表示を行う
+        NameText.text = colonistAI.gameObject.name;
     }
 }
