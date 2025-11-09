@@ -288,7 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ColonistAI
   State: 0
   timer: 2
-  MoveSpeed: 2
+  MoveSpeed: 20
   MaxHealth: 100
   currentHealth: 0
   RecoveryRate: 1
