@@ -40,6 +40,11 @@ public class ColonistManager : MonoBehaviour
     public Transform MarketPoint;
 
     /// <summary>
+    /// 食事場の位置
+    /// </summary>
+    public Transform BakeryPoint;
+
+    /// <summary>
     /// 住人につけられる名前
     /// </summary>
     private string[] possibleNames ={
@@ -56,10 +61,11 @@ public class ColonistManager : MonoBehaviour
     {
         string name;
         // doの中に書かれている処理をwhileの条件の間、繰り返します
-        do{ 
+        do
+        {
             name =
-                possibleNames[Random.Range(0,possibleNames.Length)];
-            }while(usedName.Contains(name) &&
+                possibleNames[Random.Range(0, possibleNames.Length)];
+        } while (usedName.Contains(name) &&
             usedName.Count < possibleNames.Length);
         // Listにランダムに指定された名前を追加します
         usedName.Add(name);
@@ -96,6 +102,9 @@ public class ColonistManager : MonoBehaviour
 
             // コロニストに市場の場所を教える
             Colonists[i].MarketPosition = MarketPoint;
+
+            // コロニストに食事場の場所を教える
+            Colonists[i].BakeryPosition = BakeryPoint;
 
             // コロニストのUI表示用のマネージャーに生成されたColonistAIをセット
             ColonistUIManagers[i].SetColonistAI(Colonists[i]);
