@@ -94,6 +94,7 @@ public class ColonistAI : MonoBehaviour
     /// <summary>
     /// 空腹度
     /// </summary>
+    [SerializeField]
     private float hunger = 100f;
 
     /// <summary>
@@ -126,6 +127,11 @@ public class ColonistAI : MonoBehaviour
     /// ベーカリー（食事する場所）の位置
     /// </summary>
     public Transform BakeryPosition;
+
+    /// <summary>
+    /// ベーカリーの機能
+    /// </summary>
+    public Bakery Bakery;
 
     void Start()
     {
@@ -236,6 +242,10 @@ public class ColonistAI : MonoBehaviour
                 HandleSleep();
                 break;
         }
+        // 値の制限
+        // Mathf.Clamp(値,最小値,最大値)で最小値から最大値までの値に
+        // 制限してくれます
+        currentHealth = Mathf.Clamp(currentHealth, 0, MaxHealth);
     }
 
     /// <summary>
@@ -404,7 +414,7 @@ public class ColonistAI : MonoBehaviour
     private void HandleSleep()
     {
         // 1秒間に8ポイント回復させる
-        currentHealth += RecoveryRate * 8f * Time.deltaTime;
+        currentHealth += hunger * 8f * Time.deltaTime;
 
         // ストレスも1秒間に5ポイントずつ減っていく
         stress -= 5f * Time.deltaTime;
@@ -434,28 +444,30 @@ public class ColonistAI : MonoBehaviour
         // ベーカリーの位置に近づいたら
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
-            // 食事の場所にいったら1秒で20ポイント空腹度が回復する
-            hunger += 20f * Time.deltaTime;
-            // ストレスも1秒間に5ポイントずつ減っていく
-            stress -= 5f * Time.deltaTime;
-            // 体力も回復させる
-            currentHealth += 2f * Time.deltaTime;
-            if (hunger >= 100f)
+            // ベーカリーで食事ができた場合
+            if (Bakery.CanEat())
+            {
+                // 食事をして、FoodStockを減らします
+                Bakery.Eat();
+
+                // 食事の場所にいったら1秒で20ポイント空腹度が回復する
+                hunger += 20f * Time.deltaTime;
+                // ストレスも1秒間に5ポイントずつ減っていく
+                stress -= 5f * Time.deltaTime;
+                // 体力も回復させる
+                currentHealth += 2f * hunger * Time.deltaTime;
+            }
+            else // 食べ物がない……
+            {
+                currentHealth += 2f * hunger * Time.deltaTime;
+            }
+
+            if (hunger >= 99f)
             {
                 hunger = 100f;
                 Debug.Log($"{name}は満腹になりました ");
                 State = ColonistState.Idle;
             }
-        }
-
-
-
-        // もし、コロニストの体力が完全に回復
-        if (currentHealth >= MaxHealth)
-        {
-            State = ColonistState.Idle;
-            // timerを1秒から5秒で設定してください。
-            timer = Random.Range(1f, 5f);
         }
     }
 }
