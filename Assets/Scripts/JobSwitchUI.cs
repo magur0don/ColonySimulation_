@@ -1,0 +1,52 @@
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class JobSwitchUI : MonoBehaviour
+{
+    /// <summary>
+    /// ColonistAIに直接、Jobの変更を行うため
+    /// </summary>
+    public ColonistAI ColonistAI;
+
+    public Button SwitchButton;
+
+    /// <summary>
+    /// Jobの名前を表示するための機能
+    /// </summary>
+    public TextMeshProUGUI JobLabel;
+
+    /// <summary>
+    /// ColonistUIManagerさんから呼ばれることを想定
+    /// </summary>
+    /// <param name="colonistAI"></param>
+    public void SetSwitchUI(ColonistAI colonistAI)
+    {
+        this.ColonistAI = colonistAI;
+        SwitchButton.onClick.AddListener(ToggleJob);
+        UpdateLabel();
+    }
+
+    public void ToggleJob()
+    {
+        // Colonistのジョブが採掘者だったら
+        if (ColonistAI.Job == ColonistAI.JobType.Miner)
+        {  // 運搬者に変更します
+            ColonistAI.Job = ColonistAI.JobType.Carrier;
+        }
+        // そうじゃなくってColonistのジョブが運搬者だったら
+        else if (ColonistAI.Job == ColonistAI.JobType.Carrier)
+        { // 採掘者に変更します
+            ColonistAI.Job = ColonistAI.JobType.Miner;
+        }
+        UpdateLabel();
+    }
+
+    /// <summary>
+    /// JobLabelにColonistAI.Jobの文字を表示する
+    /// </summary>
+    void UpdateLabel()
+    {
+        JobLabel.text = $"Job:{ColonistAI.Job}";
+    }
+}
