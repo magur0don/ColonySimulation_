@@ -2611,7 +2611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2387d9607e043c48a70922e9c01b621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bekery
-  FoodStock: 0
+  FoodStock: 100
 --- !u!1 &1696688425
 GameObject:
   m_ObjectHideFlags: 0

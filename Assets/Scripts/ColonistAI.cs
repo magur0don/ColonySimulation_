@@ -343,6 +343,14 @@ public class ColonistAI : MonoBehaviour
                 return;
             }
         }
+        else if (Job == JobType.Miner)
+        { //共有資産が100を越えたらMineの人もCarryに移行する。
+            if (MineSite.SharedMinedResource > 100)
+            {
+                Job = JobType.Carrier;
+                return;
+            }
+        }
 
 
         // 仮で採掘アニメーション再生の代わりにログを出力します
