@@ -57,11 +57,6 @@ public class Bakery : MonoBehaviour
             FoodStock += ProduceRate;
         }
     }
-
-
-
-
-
     /// <summary>
     /// ベーカリーで食事ができるかどうか
     /// </summary>
