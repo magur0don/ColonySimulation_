@@ -1178,6 +1178,7 @@ MonoBehaviour:
   WarehousePoint: {fileID: 1659302391}
   MarketPoint: {fileID: 625706764}
   BakeryPoint: {fileID: 1680258023}
+  ConstructionPoint: {fileID: 1936371959}
 --- !u!1 &342477227
 GameObject:
   m_ObjectHideFlags: 0
@@ -4876,6 +4877,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1933558653}
   m_CullTransparentMesh: 1
+--- !u!1 &1936371958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1936371959}
+  - component: {fileID: 1936371960}
+  m_Layer: 0
+  m_Name: ConstructionSite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1936371959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936371958}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1936371960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936371958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac774bc58a34de74cb4b48824b2f654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConstructionSite
+  BuildingName: House
+  CompletedPrefab: {fileID: 100000, guid: 81ae10d5415799d4db940c6fe498e861, type: 3}
+  BuildPoint: {fileID: 0}
+  RequiredWork: 100
+  ResourcePerWork: 1
+  Warehouse: {fileID: 1659302392}
 --- !u!1 &1951181500
 GameObject:
   m_ObjectHideFlags: 0
@@ -5725,3 +5776,4 @@ SceneRoots:
   - {fileID: 13326386}
   - {fileID: 625706763}
   - {fileID: 595679818}
+  - {fileID: 1936371959}

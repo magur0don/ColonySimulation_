@@ -45,6 +45,12 @@ public class ColonistManager : MonoBehaviour
     public Transform BakeryPoint;
 
     /// <summary>
+    /// 建築現場の位置
+    /// </summary>
+    public Transform ConstructionPoint;
+
+
+    /// <summary>
     /// 住人につけられる名前
     /// </summary>
     private string[] possibleNames ={
@@ -112,6 +118,11 @@ public class ColonistManager : MonoBehaviour
 
             // コロニストにbakeryの状態を教える
             Colonists[i].Bakery = BakeryPoint.GetComponent<Bakery>();
+
+            // コロニストに建築現場を教える
+            Colonists[i].ConstructionSite =
+                ConstructionPoint.GetComponent<ConstructionSite>();
+
 
             // コロニストのUI表示用のマネージャーに生成されたColonistAIをセット
             ColonistUIManagers[i].SetColonistAI(Colonists[i]);

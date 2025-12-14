@@ -13,7 +13,8 @@ public class ColonistAI : MonoBehaviour
         Sleep,      // 就寝
         Carry,      // 運ぶ
         Rest,       // 休憩
-        Eat,        // 食事 
+        Eat,       // 食事 
+        Build,      // 建築作業
         Dead       // 死亡
     }
 
@@ -23,7 +24,8 @@ public class ColonistAI : MonoBehaviour
     {
         Invalid = -1, // 定義されていない
         Miner,           // 採掘者
-        Carrier         // 運搬者
+        Carrier,        // 運搬者
+        Builder         // 建築作業者
     }
 
     // 一旦全ての住人は採掘者とします
@@ -165,6 +167,16 @@ public class ColonistAI : MonoBehaviour
     public MineSite MineSite;
 
     /// <summary>
+    /// 建築現場の機能
+    /// </summary>
+    public ConstructionSite ConstructionSite;
+
+    /// <summary>
+    /// 建築能力(秒間の作業量)
+    /// </summary>
+    public float BuildPower = 5f;
+
+    /// <summary>
     /// 運搬中の採掘資産
     /// </summary>
     private float carryingAmount = 0f;
@@ -244,7 +256,7 @@ public class ColonistAI : MonoBehaviour
 
         // 1秒間に1ポイントずつ、ストレスがかかっていきます
         stress += 1f * Time.deltaTime;
-        
+
         // Hungerが最優先で処理されて
         if (hunger <= 30f) // 空腹度が30を下回ったら
         {
@@ -258,7 +270,6 @@ public class ColonistAI : MonoBehaviour
             Debug.Log($"{name}はストレスが限界！休憩に入ります！");
             State = ColonistState.Rest;
         }
-        
 
         // 小括弧の中の値(変数)を使って処理を分岐(switch)させます
         switch (State)
@@ -271,6 +282,9 @@ public class ColonistAI : MonoBehaviour
                 break;
             case ColonistState.Mine:
                 HandleMine();
+                break;
+            case ColonistState.Build:
+                HandleBuild();
                 break;
             case ColonistState.Carry:// 運ぶ状態
                 HandleCarry();
@@ -305,7 +319,18 @@ public class ColonistAI : MonoBehaviour
             // コロニスト君の状態を動くという状態に変更
             State = ColonistState.Move;
             // ターゲットポジションを決めてあげる
-            targetPosition = MinePoint;
+            // Jobが建築作業員で、かつ、建築現場があって、かつ、建築現場が完了していない場合
+            if (Job == JobType.Builder
+                && ConstructionSite != null
+                && !ConstructionSite.IsCompleted)
+            {
+                // 次に行く場所を建築現場にしてあげる
+                targetPosition = ConstructionSite.GetBuildPosition();
+            }
+            else // そうじゃなかったら従来通り採掘場に向かいます
+            {
+                targetPosition = MinePoint;
+            }
             timer = 2f;
         }
     }
@@ -332,12 +357,24 @@ public class ColonistAI : MonoBehaviour
         // 自分の位置と、ターゲットの位置が10cmより近くなったら
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
-            // 次の行動を行う
-            State = ColonistState.Mine;
-            // 掘削時間は1秒から5秒までのランダム
-            timer = Random.Range(1f, 5f);
+            // 建築作業員だったら
+            if (Job == JobType.Builder
+               && ConstructionSite != null
+               && !ConstructionSite.IsCompleted)
+            {
+                // 次の行動を建築にして
+                State = ColonistState.Build;
+                // 建築する時間をランダムに3秒から8秒程度と決めてあげる
+                timer = Random.Range(3f, 8f);
+            }
+            else // そうじゃなかったら採掘開始
+            {
+                // 次の行動を行う
+                State = ColonistState.Mine;
+                // 掘削時間は1秒から5秒までのランダム
+                timer = Random.Range(1f, 5f);
+            }
         }
-
     }
 
     /// <summary>
@@ -427,6 +464,67 @@ public class ColonistAI : MonoBehaviour
                     State = ColonistState.Mine;
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// 建築中の行動
+    /// </summary>
+    private void HandleBuild()
+    {
+        // UIから直接Jobを変更されるとTargetPositonが設定されないまま、
+        // HandleBuildがスタートするので、targetPositionが建築現場の場所じゃなかったら、
+        // StateをIdleに変更する
+        if (targetPosition != ConstructionSite.GetBuildPosition())
+        {
+            State = ColonistState.Idle;
+            return;
+        }
+
+
+        // もし、建築現場がなくなって、か、
+        // 建築現場に行った瞬間に誰かが完成させた場合
+        if (ConstructionSite == null || ConstructionSite.IsCompleted)
+        {
+            // すでに建物が完成しているので返ります
+            State = ColonistState.Idle;
+            timer = 1f;
+            return;
+        }
+        // 回って作業中だということをプレイヤーに伝えます
+        transform.Rotate(Vector3.up * 60f * Time.deltaTime);
+        // 疲れさせます
+        currentHealth -= FatigueRate * 5f * Time.deltaTime;
+        // ストレスも上昇させます
+        stress += 2f * Time.deltaTime;
+        // 作業量を計算します
+        float workAmount = BuildPower * Time.deltaTime;
+
+        // 建築現場に作業量を追加していきます
+        bool worked = ConstructionSite.Build(workAmount);
+
+        // 資源不足とかで建築できなかった場合
+        if (!worked)
+        {
+            // 疲れてるはずなので休憩に行きます
+            State = ColonistState.Rest;
+            timer = 2f;
+            return;
+        }
+        // 体力が少なすぎる場合は、
+        if (currentHealth <= 20f)
+        {
+            // その場で寝ます
+            State = ColonistState.Sleep;
+            return;
+        }
+        // 建築作業が完了した場合、
+        if (ConstructionSite.IsCompleted)
+        {
+            Debug.Log($"{name}は建築作業を完了しました");
+            // 休む
+            State = ColonistState.Rest;
+            timer = 3f;
         }
     }
 
