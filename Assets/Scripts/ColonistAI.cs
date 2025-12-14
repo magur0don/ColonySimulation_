@@ -611,12 +611,32 @@ public class ColonistAI : MonoBehaviour
     /// </summary>
     private void HandleSleep()
     {
-        // 1秒間に8ポイント回復させる
-        currentHealth += hunger * 8f * Time.deltaTime;
-
-        // ストレスも1秒間に5ポイントずつ減っていく
-        stress -= 5f * Time.deltaTime;
-
+        // シーン上からhouseを検索します
+        House house = FindAnyObjectByType<House>();
+        // もし家があれば、そこに向かう
+        if (house != null)
+        {
+            targetPosition = house.GetHousePosition();
+            // 移動する処理
+            transform.position = Vector3.MoveTowards(
+                 transform.position, targetPosition, MoveSpeed * Time.deltaTime);
+            // もし、家の近くになったら
+            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+            {
+                // 家なので回復する値にボーナスをつけたい。
+                // 1秒間に8*RecoveryBonus分のポイント回復させる
+                currentHealth += hunger * house.RecoveryBonus * 8f * Time.deltaTime;
+                // ストレスも1秒間に5ポイント*RecoveryBonus分ずつ減っていく
+                stress -= 5f * house.RecoveryBonus * Time.deltaTime;
+            }
+        }
+        else // 家が無くてその場で寝た場合
+        {
+            // 1秒間に8ポイント回復させる
+            currentHealth += hunger * 8f * Time.deltaTime;
+            // ストレスも1秒間に5ポイントずつ減っていく
+            stress -= 5f * Time.deltaTime;
+        }
         // もし、コロニストの体力が完全に回復
         if (currentHealth >= MaxHealth)
         {

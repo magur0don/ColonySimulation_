@@ -4316,6 +4316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bekery
   FoodStock: 100
+  MaxFoodStock: 100
   ExchangeRate: 20
   ProduceRate: 20
   Warehouse: {fileID: 1659302392}
@@ -4922,7 +4923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConstructionSite
   BuildingName: House
-  CompletedPrefab: {fileID: 100000, guid: 81ae10d5415799d4db940c6fe498e861, type: 3}
+  CompletedPrefab: {fileID: 7211804936214859345, guid: e771438d9a3884a4ca67caaaafe197d1, type: 3}
   BuildPoint: {fileID: 0}
   RequiredWork: 100
   ResourcePerWork: 1
