@@ -256,7 +256,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 752430371921133707}
   - {fileID: 3183984596236429848}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -287,8 +286,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ColonistAI
   State: 0
+  Job: 0
   timer: 2
   MoveSpeed: 20
+  MinePoint: {x: 0, y: 0, z: 0}
   MaxHealth: 100
   currentHealth: 0
   RecoveryRate: 1
@@ -298,100 +299,12 @@ MonoBehaviour:
   NormalMaterial: {fileID: 2100000, guid: 979cf6e3e770a8c4b9bf8db2f38ba44b, type: 2}
   OldMaterial: {fileID: 2100000, guid: a2bea01e0bf7a1e468a2b88c9e721743, type: 2}
   MiningSkill: 0.58
---- !u!1001 &1007559550643890016
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 846099434339683447}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6722085885383957590, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_Lightmapping
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_Name
-      value: Forklift
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1165923690563524698, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-      propertyPath: m_Lightmapping
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 65702495048144492, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-    - {fileID: -8177674591550235431, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-    - {fileID: 640199417312129790, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-    - {fileID: 9095421071985373901, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-    - {fileID: 5410056642468032975, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-    - {fileID: -8700617353114198275, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-    - {fileID: 2550463727306718371, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
---- !u!4 &752430371921133707 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0a55b0299ebda994eaf7e5995b5beb36, type: 3}
-  m_PrefabInstance: {fileID: 1007559550643890016}
-  m_PrefabAsset: {fileID: 0}
+  MinedResource: 0
+  hunger: 100
+  Warehouse: {fileID: 0}
+  MarketPosition: {fileID: 0}
+  BakeryPosition: {fileID: 0}
+  Bakery: {fileID: 0}
+  MineSite: {fileID: 0}
+  ConstructionSite: {fileID: 0}
+  BuildPower: 5
