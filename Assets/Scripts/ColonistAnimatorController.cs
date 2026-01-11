@@ -23,9 +23,14 @@ public class ColonistAnimatorController : MonoBehaviour
         {
             PlayMineAnimation();
         }
-         if (Keyboard.current.digit3Key.wasPressedThisFrame)
+        if (Keyboard.current.digit3Key.wasPressedThisFrame)
         {
             PlaySleepingAnimation();
+        }
+         if (Keyboard.current.digit1Key.wasPressedThisFrame
+            && Keyboard.current.minusKey.wasPressedThisFrame)
+        {
+            PlayDeathAnimation();
         }
     }
     /// <summary>
@@ -50,10 +55,25 @@ public class ColonistAnimatorController : MonoBehaviour
         CollonistAnimator.SetInteger("AnimationState", 2);
     }
     /// <summary>
-    /// 掘るアニメーションを再生
+    /// 寝るアニメーションを再生
     /// </summary>
     public void PlaySleepingAnimation()
     {
         CollonistAnimator.SetInteger("AnimationState", 3);
+    }
+    /// <summary>
+    /// 死亡時のアニメーションを再生
+    /// </summary>
+    public void PlayDeathAnimation()
+    {
+        CollonistAnimator.SetInteger("AnimationState", -1);
+        CollonistAnimator.SetTrigger("DeathTrigger");
+    }
+    /// <summary>
+    /// 遊ぶアニメーションを再生
+    /// </summary>
+    public void PlayRestAnimation()
+    {
+        CollonistAnimator.SetInteger("AnimationState", 4);
     }
 }

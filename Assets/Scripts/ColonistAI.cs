@@ -186,6 +186,11 @@ public class ColonistAI : MonoBehaviour
     /// </summary>
     private float carryingCapacity = 10f;
 
+    /// <summary>
+    /// Animation制御用のclass
+    /// </summary>
+    public ColonistAnimatorController ColonistAnimatorController;
+
     void Start()
     {
         // コロニストの状態をIdle(待機)から始める
@@ -203,7 +208,7 @@ public class ColonistAI : MonoBehaviour
         {
             RecoveryRate = 2f;
             FatigueRate = 0.5f;
-            MoveSpeed = 5f;
+            MoveSpeed = Random.Range(5f,7f);
             MiningSkill = 3f;
             // foreach文は配列に対して、全ての要素に変更を加えたい時に使います
             foreach (var renderer in coloniostMeshRenderers)
@@ -215,7 +220,7 @@ public class ColonistAI : MonoBehaviour
         {
             RecoveryRate = 1f;
             FatigueRate = 1f;
-            MoveSpeed = 2f;
+            MoveSpeed = Random.Range(3f,5f);
             MiningSkill = 2f;
             foreach (var renderer in coloniostMeshRenderers)
             {
@@ -226,7 +231,7 @@ public class ColonistAI : MonoBehaviour
         { // 50より上
             RecoveryRate = 0.5f;
             FatigueRate = 2f;
-            MoveSpeed = 1f;
+            MoveSpeed = Random.Range(1f,3f);
             MiningSkill = 1f;
             foreach (var renderer in coloniostMeshRenderers)
             {
@@ -310,9 +315,10 @@ public class ColonistAI : MonoBehaviour
     /// </summary>
     private void HandleIdle()
     {
+        // 待機アニメーションを再生させる
+        ColonistAnimatorController.PlayIdleAnimation();
         // 現在の体力をじわじわっと回復させる 
         currentHealth += RecoveryRate * 2f * Time.deltaTime;
-
         // もしタイマーが0秒を下回ったら
         if (timer <= 0f)
         {
@@ -340,8 +346,12 @@ public class ColonistAI : MonoBehaviour
     /// </summary>
     private void HandleMove()
     {
+        ColonistAnimatorController.PlayWalkingAnimation();
         transform.position = Vector3.MoveTowards(
                transform.position, targetPosition, MoveSpeed * Time.deltaTime);
+
+        // Transform自体をtargetpositionの方に向かせてあげる
+        transform.LookAt(targetPosition);
 
         // 現在の体力値から1秒間で5ポイント体力を減らします
         currentHealth -= FatigueRate * 5f * Time.deltaTime;
@@ -408,13 +418,13 @@ public class ColonistAI : MonoBehaviour
             }
         }
 
-
+        ColonistAnimatorController.PlayMineAnimation();
         // 仮で採掘アニメーション再生の代わりにログを出力します
         Debug.Log("Colonist is mining!");
 
         // 毎フレーム回転させ続ける
         // 1秒間にminingSkillが3の人は360°一回転できる
-        transform.Rotate(Vector3.up * 120f * MiningSkill * Time.deltaTime);
+        // transform.Rotate(Vector3.up * 120f * MiningSkill * Time.deltaTime);
 
         // 現在の体力を1秒間に10ポイント減らします
         currentHealth -= FatigueRate * 10f * Time.deltaTime;
@@ -535,7 +545,8 @@ public class ColonistAI : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(
               transform.position, targetPosition, MoveSpeed * Time.deltaTime);
-
+        transform.LookAt(targetPosition);
+        ColonistAnimatorController.PlayWalkingAnimation();
         // 体力が回復するまで休ませるか。
         // 休憩する場所に行って、休憩する。
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
@@ -587,9 +598,12 @@ public class ColonistAI : MonoBehaviour
 
         transform.position = Vector3.MoveTowards(
      transform.position, targetPosition, MoveSpeed * Time.deltaTime);
+        transform.LookAt(targetPosition);
+        ColonistAnimatorController.PlayWalkingAnimation();
         // 市場の位置に近づいたら
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
+             ColonistAnimatorController.PlayRestAnimation();
             // ストレスも1秒間に5ポイント緩和
             stress -= 5f * Time.deltaTime;
             // 現在の体力をじわじわっと回復させる 
@@ -620,9 +634,15 @@ public class ColonistAI : MonoBehaviour
             // 移動する処理
             transform.position = Vector3.MoveTowards(
                  transform.position, targetPosition, MoveSpeed * Time.deltaTime);
+            // Transform自体をtargetpositionの方に向かせてあげる
+            transform.LookAt(targetPosition);
+            ColonistAnimatorController.PlayWalkingAnimation();
+
             // もし、家の近くになったら
             if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
             {
+                ColonistAnimatorController.PlaySleepingAnimation();
+
                 // 家なので回復する値にボーナスをつけたい。
                 // 1秒間に8*RecoveryBonus分のポイント回復させる
                 currentHealth += hunger * house.RecoveryBonus * 8f * Time.deltaTime;
@@ -632,6 +652,7 @@ public class ColonistAI : MonoBehaviour
         }
         else // 家が無くてその場で寝た場合
         {
+            ColonistAnimatorController.PlaySleepingAnimation();
             // 1秒間に8ポイント回復させる
             currentHealth += hunger * 8f * Time.deltaTime;
             // ストレスも1秒間に5ポイントずつ減っていく
@@ -658,7 +679,8 @@ public class ColonistAI : MonoBehaviour
 
         transform.position = Vector3.MoveTowards(
            transform.position, targetPosition, MoveSpeed * Time.deltaTime);
-
+        transform.LookAt(targetPosition);
+        ColonistAnimatorController.PlayWalkingAnimation();
         // ベーカリーの位置に近づいたら
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {

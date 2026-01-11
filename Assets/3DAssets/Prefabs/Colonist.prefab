@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3183984596236429848
 Transform:
   m_ObjectHideFlags: 0
@@ -257,6 +257,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3183984596236429848}
+  - {fileID: 7091997201228071712}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8139826466060061007
@@ -308,3 +309,77 @@ MonoBehaviour:
   MineSite: {fileID: 0}
   ConstructionSite: {fileID: 0}
   BuildPower: 5
+  ColonistAnimatorController: {fileID: 4545387321948334784}
+--- !u!1001 &5651847376165400301
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 846099434339683447}
+    m_Modifications:
+    - target: {fileID: 2832588741183027063, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+      propertyPath: m_Name
+      value: Remy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3171854510646390221, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3171854510646390221, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3171854510646390221, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3171854510646390221, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3171854510646390221, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3171854510646390221, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3171854510646390221, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3171854510646390221, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3171854510646390221, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3171854510646390221, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+--- !u!114 &4545387321948334784 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8177147766569731117, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+  m_PrefabInstance: {fileID: 5651847376165400301}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a1f609b6f78f99488cfe0da7b1c7cc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColonistAnimatorController
+--- !u!4 &7091997201228071712 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3171854510646390221, guid: 02a69694d0f22594fbb8860e12abe1e7, type: 3}
+  m_PrefabInstance: {fileID: 5651847376165400301}
+  m_PrefabAsset: {fileID: 0}
