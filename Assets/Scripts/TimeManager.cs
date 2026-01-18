@@ -8,14 +8,35 @@ public class TimeManager : MonoBehaviour
     public Button Speed2xbutton;// 2”{‘¬
     public Button Speed3xbutton;// 3”{‘¬
 
+    public AudioClip StopSE;
+    public AudioClip PlaySE;
+    public AudioClip SpeedUpSE;
+
     void Start()
     {
         // ƒQ[ƒ€‚ªŠJŽn‚µ‚½‚Æ‚«‚Í“™”{‘¬‚É‚µ‚Ä‚¨‚­
         SetTimeScale(1f);
-        PauseButton.onClick.AddListener(() => SetTimeScale(0f));
-        PlayButton.onClick.AddListener(() => SetTimeScale(1f));
-        Speed2xbutton.onClick.AddListener(() => SetTimeScale(2f));
-        Speed3xbutton.onClick.AddListener(() => SetTimeScale(3f));
+
+        PauseButton.onClick.AddListener(() =>
+        {
+            SetTimeScale(0f);
+            SEManager.Instance.PlaySE(StopSE);
+        });
+        PlayButton.onClick.AddListener(() =>
+        {
+            SetTimeScale(1f);
+            SEManager.Instance.PlaySE(PlaySE);
+        });
+        Speed2xbutton.onClick.AddListener(() =>
+        {
+            SetTimeScale(2f);
+            SEManager.Instance.PlaySE(SpeedUpSE);
+        });
+        Speed3xbutton.onClick.AddListener(() =>
+        {
+            SetTimeScale(3f);
+            SEManager.Instance.PlaySE(SpeedUpSE);
+        });
     }
 
     /// <summary>
@@ -37,26 +58,26 @@ public class TimeManager : MonoBehaviour
         {
             case 0f:
                 PauseButton.image.color = Color.white;
-                PlayButton.image.color = Color.gray5;
-                Speed2xbutton.image.color = Color.gray5;
-                Speed3xbutton.image.color = Color.gray5;
+                PlayButton.image.color = Color.gray;
+                Speed2xbutton.image.color = Color.gray;
+                Speed3xbutton.image.color = Color.gray;
                 break;
             case 1f:
-                PauseButton.image.color = Color.gray5;
+                PauseButton.image.color = Color.gray;
                 PlayButton.image.color = Color.white;
-                Speed2xbutton.image.color = Color.gray5;
-                Speed3xbutton.image.color = Color.gray5;
+                Speed2xbutton.image.color = Color.gray;
+                Speed3xbutton.image.color = Color.gray;
                 break;
             case 2f:
-                PauseButton.image.color = Color.gray5;
-                PlayButton.image.color = Color.gray5;
+                PauseButton.image.color = Color.gray;
+                PlayButton.image.color = Color.gray;
                 Speed2xbutton.image.color = Color.white;
-                Speed3xbutton.image.color = Color.gray5;
+                Speed3xbutton.image.color = Color.gray;
                 break;
             case 3f:
-                PauseButton.image.color = Color.gray5;
-                PlayButton.image.color = Color.gray5;
-                Speed2xbutton.image.color = Color.gray5;
+                PauseButton.image.color = Color.gray;
+                PlayButton.image.color = Color.gray;
+                Speed2xbutton.image.color = Color.gray;
                 Speed3xbutton.image.color = Color.white;
                 break;
         }
